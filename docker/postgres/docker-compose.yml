@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  postgres_post:
+    image: postgres:14.1-alpine
+    container_name: postgres_post_container
+#    build: postgres
+    environment:
+      POSTGRES_USER: ${POSRGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres_db}
+      PGDATA: ${PGDATA:-/data/postgres}
+    volumes:
+      - postgres_post:${PGDATA:-/data/postgres}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+#    networks:
+#      - postgres_post
+    restart: unless-stopped
+networks:
+  postgres_post:
+    driver: bridge
+
+volumes:
+  postgres_post:
